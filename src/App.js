@@ -1,25 +1,31 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import {withRouter} from 'react-router'
+import Nav from './Nav';
+import Routes from './Routes';
 import './App.css';
+import { CoursesAdapter } from './Adapters/index.js';
 
 class App extends Component {
+  constructor(){
+    super()
+
+    this.state ={
+      courses:[],
+      assetToEdit: {}
+    }
+  }
+
+  componentDidMount () {
+    CoursesAdapter.getCourses().then(resp => this.setState({courses : resp}))
+  }
+
+
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        < Nav />
+        < Routes thing={this.state.courses} />
       </div>
     );
   }
